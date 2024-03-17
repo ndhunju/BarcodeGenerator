@@ -1,4 +1,5 @@
 plugins {
+    id("maven-publish")
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
 }
@@ -9,6 +10,13 @@ android {
 
     defaultConfig {
         minSdk = 24
+
+        aarMetadata {
+            // If your library contains manifest entries or resources that
+            // make use of newer platform attributes, you need to set this value
+            // https://developer.android.com/build/publish-library/prep-lib-release
+            minSdk = 24
+        }
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -37,8 +45,36 @@ android {
         jvmTarget = "17"
     }
 
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
+
     composeOptions {
         kotlinCompilerExtensionVersion = "${rootProject.extra["kotlin_compiler_ext_version"]}"
+    }
+}
+
+
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            groupId = "com.ndhunju"
+            artifactId = "barcode-generator"
+            version = "1.0"
+
+            afterEvaluate {
+                from(components["release"])
+            }
+        }
+
+        repositories {
+            maven {
+                name = "ndhunju"
+                url = uri("${project.buildDir}/repo")
+            }
+        }
     }
 }
 
