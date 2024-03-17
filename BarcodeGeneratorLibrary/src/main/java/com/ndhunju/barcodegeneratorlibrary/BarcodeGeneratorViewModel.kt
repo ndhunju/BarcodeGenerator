@@ -15,17 +15,20 @@ import com.google.zxing.qrcode.QRCodeWriter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-const val DEFAULT_QR_CODE_CONTENT = "https://github.com/ndhunju"
 const val BUNDLE_QR_CODE_CONTENT = "QR_CODE_CONTENT"
 
 internal class BarcodeGeneratorViewModel: ViewModel() {
 
     private val qrCodeWriter = QRCodeWriter()
-    var qrCodeContent = DEFAULT_QR_CODE_CONTENT
+    var qrCodeContent: String? = null
         set(value) {
             field = value
             viewModelScope.launch(Dispatchers.IO) {
-                _qrCodeBitmap.value = generateQrCode(qrCodeWriter, value)
+                if (value == null) {
+                    _qrCodeBitmap.value == null
+                } else {
+                    _qrCodeBitmap.value = generateQrCode(qrCodeWriter, value)
+                }
             }
         }
 
@@ -49,7 +52,7 @@ internal class BarcodeGeneratorViewModel: ViewModel() {
 
     fun generateQrCode(
         qrCodeWriter: QRCodeWriter,
-        content: String = DEFAULT_QR_CODE_CONTENT,
+        content: String,
         sizeInPx: Int = 512
     ): Bitmap {
         // Make the QR code buffer border narrower

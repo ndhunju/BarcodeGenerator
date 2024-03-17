@@ -6,6 +6,7 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -54,11 +55,16 @@ fun BarcodeGeneratorScreen(
                 ) {
                     // Show progress indicator until QR code is generated
                     if (bitmap.value == null) {
-                        CircularProgressIndicator(
-                            modifier = Modifier
-                                .fillMaxWidth(0.5f)
-                                .fillMaxHeight(0.3f),
+                        Box(modifier = Modifier
+                            .fillMaxWidth(0.5f)
+                            .fillMaxHeight(0.3f)
+                        ) {
+                            CircularProgressIndicator(modifier = Modifier
+                                .fillMaxWidth(0.3f)
+                                .fillMaxHeight(0.1f)
+                                .align(Alignment.Center),
                             )
+                        }
                     }
 
                     AnimatedVisibility(visible = bitmap.value != null, enter = scaleIn()) {

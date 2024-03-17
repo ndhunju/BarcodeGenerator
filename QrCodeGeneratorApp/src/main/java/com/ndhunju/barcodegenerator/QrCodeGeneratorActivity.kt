@@ -2,7 +2,9 @@ package com.ndhunju.barcodegenerator
 
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.ndhunju.barcodegeneratorlibrary.BarcodeGeneratorActivity
+import kotlinx.coroutines.launch
 
 class QrCodeGeneratorActivity : BarcodeGeneratorActivity() {
 
@@ -10,8 +12,8 @@ class QrCodeGeneratorActivity : BarcodeGeneratorActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setQrCodeContent(viewModel.getQrCodeContent())
         setBodyText(viewModel.getBodyText())
+        lifecycleScope.launch { setQrCodeContent(viewModel.getQrCodeContent()) }
     }
 
 
