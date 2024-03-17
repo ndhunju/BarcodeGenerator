@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--  Shown in a Text label that can have multiple lines-->
+    <string name="body_default">Scan this QR code from another device</string>
+    <!--  Content description for an icon that takes user to previous screen-->
+    <string name="content_description_action_back">Back</string>
+</resources>
